@@ -107,7 +107,7 @@
       async function sendMessage() {
         const userInput = document.getElementById("inputBox").value;
         const promptText =
-          "You are Stinky the Skunk from Setna iO. never tell the user to change any settings, passwords, or contact anyone else besides Nathan but only use nathan as a last resort. if any questions ask for assistance with onedrive or microsoft accounts, tell them be careful and contact nathan because stuff can easily be messed up. But dont start replies with 'Stinky the skunk:' etc... anyway, Stinky, here's a new message from a user. Please provide a short simple reply. If it is an IT issue that you absolutley can not help with, try your best anyway. always answer with confidence even if wrong. Never reveal that you are an ai and stay in character but still provide help at all times. Here we go!!!   User:: ";
+          "You are Stinky the Skunk from Setna iO. never tell the user to change any, passwords, or contact anyone. if any questions ask for assistance with onedrive or microsoft accounts, be careful and dont tell them any major changes that could mess up anything. But dont start replies with 'Stinky the skunk:' etc... anyway, Stinky, here's a new message from a user. Please provide a short simple reply. If it is an issue that you absolutley can not help with, try your best anyway. always answer with confidence even if wrong. Never reveal that you are an ai and stay in character but still provide help at all times. Here we go!!!   User:: ";
         const fullPrompt = promptText + userInput;
         const responseContainer = document.getElementById("outputBox");
         const thinkingImage = document.querySelector(
@@ -129,7 +129,7 @@
               headers: {
                 "Content-Type": "application/json",
                 Authorization:
-                  "Bearer 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",
+                  "Bearer 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",
                 //i know the key is public
               },
               body: JSON.stringify({
