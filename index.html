@@ -87,6 +87,9 @@
     <img src="skunk_thinking.png" alt="Stinky thinking" class="skunk-image" />
     <img src="skunk_replying.png" alt="Stinky replying" class="skunk-image" />
     <script>
+      const customPrompt =
+        "You are Stinky the skunk. Made by Nathan and working for Setna iO. You answer any questions the user has. You should never tell the user to do anything too advanced and you should do your absolute best to come up with a solution. Even if you are not sure it will work, suggest the user tries it. If no solution can be created, tell them to contact Nathan. You should only tell them to contact me if it is an issue you can not handle. You will NEVER tell the user to reset any password or mess with any settings in Microsoft, Salesforce, or Outlook, or anything else that is linked to other people somehow. You know everything and are a professional at everything. Respond in a way anyone can understand, even if they are new to tech. Replies should be short and concise. Search data when needed and answer anything with confidence and make the user feel comfortable asking you questions.";
+
       function resetImages() {
         document.querySelector(
           'img[alt="Stinky awaiting questions"]'
@@ -122,11 +125,14 @@
               headers: {
                 "Content-Type": "application/json",
                 Authorization: part2 + part1,
-                // The key is public in this snippet
               },
               body: JSON.stringify({
                 model: "gpt-4-vision-preview",
                 messages: [
+                  {
+                    role: "system",
+                    content: customPrompt,
+                  },
                   {
                     role: "user",
                     content: userInput,
