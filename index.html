@@ -63,10 +63,21 @@
         margin-bottom: 20px;
         scale: 1.8;
       }
+
+      #stinkyLoadType {
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0.2;
+      }
     </style>
   </head>
   <body>
-    <img src="./skunk_thinking.gif" alt="Stinky Logo" class="logo-top" />
+    <img
+      src="https://n8th.github.io/welcome/skunk_logo.png"
+      alt="Stinky Logo"
+      class="logo-top"
+    />
     <h1>Ask Stinky Something</h1>
     <textarea
       id="inputBox"
@@ -81,10 +92,32 @@
       class="skunk-image"
       style="display: block"
     />
-    <!-- <img src="skunk_thinking.gif" alt="Stinky thinking" class="skunk-image" /> -->
-    <img src="skunk_thinking.png" alt="Stinky thinking" class="skunk-image" />
+    <input
+      type="checkbox"
+      name="gifOrPng"
+      id="stinkyLoadType"
+      onchange="changeLoad()"
+    />
+    <img
+      id="stinkyImage"
+      src="skunk_thinking.png"
+      alt="Stinky thinking"
+      class="skunk-image"
+    />
     <img src="skunk_replying.png" alt="Stinky replying" class="skunk-image" />
+
     <script>
+      function changeLoad() {
+        var checkBox = document.getElementById("stinkyLoadType");
+        var image = document.getElementById("stinkyImage");
+
+        if (checkBox.checked) {
+          image.src = "skunk_thinking.gif"; // Use GIF if checkbox is checked
+        } else {
+          image.src = "skunk_thinking.png"; // Use PNG if checkbox is not checked
+        }
+      }
+
       const customPrompt =
         "You are Stinky the skunk. Made by Nathan and working for Setna iO. You answer any questions the user has. You should never tell the user to do anything too advanced and you should do your absolute best to come up with a solution. Even if you are not sure it will work, suggest the user tries it. If no solution can be created, tell them to contact Nathan. You should only tell them to contact me if it is an issue you can not handle. You will NEVER tell the user to reset any password or mess with any settings in Microsoft, Salesforce, or Outlook, or anything else that is linked to other people somehow. You know everything and are a professional at everything. Respond in a way anyone can understand, even if they are new to tech. Replies should be short and concise. Search data when needed and answer anything with confidence and make the user feel comfortable asking you questions.";
 
