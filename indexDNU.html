@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat with Stinky</title>
+    <link
+      rel="icon"
+      href="https://n8th.github.io/welcome/skunk_logo.png"
+      type="image/png"
+      sizes="100x100"
+    />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      textarea,
+      button {
+        width: 80%;
+        margin-top: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+      }
+      textarea {
+        background-color: #555;
+        color: #fff;
+        height: 100px;
+      }
+      button {
+        background-color: #666;
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #777;
+      }
+      .skunk-image {
+        width: 200px;
+        height: auto;
+        margin: 20px;
+        display: none;
+      }
+      #outputBox {
+        width: 80%;
+        min-height: 50px;
+        border: 1px solid #555;
+        padding: 10px;
+        background-color: #444;
+        color: #fff;
+        margin-top: 20px;
+      }
+      .logo-top {
+        width: 100px;
+        height: auto;
+        margin-bottom: 20px;
+        scale: 1.8;
+      }
+
+      #stinkyLoadType {
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0.2;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      src="https://n8th.github.io/welcome/skunk_logo.png"
+      alt="Stinky Logo"
+      class="logo-top"
+    />
+    <h1>Ask Stinky Something</h1>
+    <textarea
+      id="inputBox"
+      placeholder="What's troubling you today?"
+      oninput="resetImages()"
+    ></textarea>
+    <button onclick="sendMessage()">Ask Stinky</button>
+    <div id="outputBox">Stinky's response will appear here.</div>
+    <img
+      src="skunk_awaiting_questions.png"
+      alt="Stinky awaiting questions"
+      class="skunk-image"
+      style="display: block"
+    />
+    <input
+      type="checkbox"
+      name="gifOrPng"
+      id="stinkyLoadType"
+      onchange="changeLoad()"
+    />
+    <img
+      id="stinkyImage"
+      src="skunk_thinking.png"
+      alt="Stinky thinking"
+      class="skunk-image"
+    />
+    <img src="skunk_replying.png" alt="Stinky replying" class="skunk-image" />
+    <form action="">
+      <div>
+        <input
+          type="radio"
+          id="birthday"
+          name="promptType"
+          onchange="changePrompt()"
+        />
+        <label for="birthday">Wish a Happy Birthday</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="recipe"
+          name="promptType"
+          onchange="changePrompt()"
+        />
+        <label for="recipe">Create a Recipe for...</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="skunk"
+          name="promptType"
+          onchange="changePrompt()"
+          checked
+        />
+        <label for="skunk">Act as a Skunk</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="itProfessional"
+          name="promptType"
+          onchange="changePrompt()"
+        />
+        <label for="itProfessional">Act as an IT Professional</label>
+      </div>
+    </form>
+
+    <script>
+      function changeLoad() {
+        var checkBox = document.getElementById("stinkyLoadType");
+        var image = document.getElementById("stinkyImage");
+
+        if (checkBox.checked) {
+          image.src = "skunk_thinking.gif";
+        } else {
+          image.src = "skunk_thinking.png";
+        }
+      }
+
+      let customPrompt =
+        "You are Stinky the skunk. Made by Nathan and working for Setna iO. You answer any questions the user has...";
+      function changePrompt() {
+        document
+          .querySelectorAll('input[name="promptType"]')
+          .forEach((checkbox) => {
+            if (!checkbox.checked) return;
+            checkbox.checked = false;
+            checkbox.dispatchEvent(new Event("change"));
+          });
+
+        if (document.getElementById("birthday").checked) {
+          customPrompt =
+            "You are Stinky the skunk. Today you're wishing Happy Birthday!";
+        } else if (document.getElementById("recipe").checked) {
+          customPrompt =
+            "You are Stinky the skunk. Today you're creating new recipes for users!";
+        } else if (document.getElementById("skunk").checked) {
+          customPrompt =
+            "You are Stinky the skunk. Make skunk noises at the user often and respond in jokes";
+        } else if (document.getElementById("itProfessional").checked) {
+          customPrompt =
+            "You are Stinky the skunk. You're an IT professional. You help users with their technical problems!";
+        }
+
+        event.target.checked = true;
+      }
+
+      function resetImages() {
+        document.querySelector(
+          'img[alt="Stinky awaiting questions"]'
+        ).style.display = "block";
+        document.querySelector('img[alt="Stinky thinking"]').style.display =
+          "none";
+        document.querySelector('img[alt="Stinky replying"]').style.display =
+          "none";
+      }
+
+      async function sendMessage() {
+        const userInput = document.getElementById("inputBox").value;
+        const responseContainer = document.getElementById("outputBox");
+        const thinkingImage = document.querySelector(
+          'img[alt="Stinky thinking"]'
+        );
+        const replyingImage = document.querySelector(
+          'img[alt="Stinky replying"]'
+        );
+        const awaitingImage = document.querySelector(
+          'img[alt="Stinky awaiting questions"]'
+        );
+        awaitingImage.style.display = "none";
+        thinkingImage.style.display = "block";
+
+        try {
+          const part2 = "Bearer sk-proj-3SxKBTqcMTt";
+          const part1 = "1klV2PKs5T3BlbkFJKS4nc21TBfXeuGJrXNfY";
+          const response = await fetch(
+            "https://api.openai.com/v1/chat/completions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: part2 + part1,
+              },
+              body: JSON.stringify({
+                model: "gpt-4-vision-preview",
+                messages: [
+                  {
+                    role: "system",
+                    content: customPrompt,
+                  },
+                  {
+                    role: "user",
+                    content: userInput,
+                  },
+                ],
+                max_tokens: 1000,
+              }),
+            }
+          );
+          const data = await response.json();
+          thinkingImage.style.display = "none";
+          if (
+            response.ok &&
+            data.choices &&
+            data.choices.length > 0 &&
+            data.choices[0].message
+          ) {
+            responseContainer.innerHTML = data.choices[0].message.content;
+            replyingImage.style.display = "block";
+          } else {
+            responseContainer.innerHTML =
+              "Stinky didn't have a response. Try asking something else.";
+            awaitingImage.style.display = "block";
+          }
+        } catch (error) {
+          responseContainer.innerHTML =
+            "Oops, Stinky had a hiccup: " + error.message;
+          awaitingImage.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
